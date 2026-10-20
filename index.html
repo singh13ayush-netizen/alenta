@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <script>document.documentElement.classList.remove('no-js');</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" id="vp" content="width=1280">
+<script>
+/* Always render the full desktop layout, scaled to fit the phone screen
+   (same as "Desktop site" mode). Real desktops/tablets >=1280px are unaffected. */
+(function(){
+  var vp=document.getElementById('vp');
+  vp.setAttribute('content', (screen.width>=1280)?'width=device-width, initial-scale=1.0':'width=1280');
+})();
+</script>
+<style>html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}</style>
 <title>Alenta Lifesciences Private Limited — Advancing Together</title>
 <meta name="description" content="Alenta Lifesciences Private Limited is a science-led healthcare company committed to research, quality manufacturing and global partnerships. Advancing Together.">
 <meta name="theme-color" content="#0F1B2E">
@@ -447,6 +456,109 @@
 
   .cursor-dot{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--accent);pointer-events:none;z-index:999;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease);}
   @media(max-width:900px){.cursor-dot{display:none;}}
+
+  /* =====================================================================
+     MOBILE OPTIMISATION
+     ===================================================================== */
+  html{-webkit-text-size-adjust:100%;}
+  a,button,.sci-row,.faq-q{-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+
+  /* hamburger + mobile menu (hidden on desktop) */
+  .navicons .nav-burger{display:none;width:44px;height:44px;margin-right:-8px;background:none;border:0;cursor:pointer;color:currentColor;position:relative;opacity:1 !important;padding:0 !important;align-items:center;justify-content:center;}
+  .nav-burger span{position:absolute;left:11px;right:11px;height:2px;border-radius:2px;background:currentColor;transition:transform .35s var(--ease),opacity .25s;}
+  .nav-burger span:nth-child(1){top:16px;} .nav-burger span:nth-child(2){top:21px;} .nav-burger span:nth-child(3){top:26px;}
+  #nav.menu-open .nav-burger span:nth-child(1){transform:translateY(5px) rotate(45deg);}
+  #nav.menu-open .nav-burger span:nth-child(2){opacity:0;}
+  #nav.menu-open .nav-burger span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+  #mobileMenu{display:none;}
+  @media(max-width:980px){
+    .navicons .nav-burger{display:flex;}
+    #nav.menu-open{background:#FFFFFF;color:var(--text);box-shadow:none;}
+    #nav.menu-open .logo-img-color{display:block !important;}
+    #nav.menu-open .logo-img-white{display:none !important;}
+    #nav.menu-open .btn.ghost{border-color:var(--silver);color:var(--text);background:#fff;}
+    #mobileMenu{display:flex;flex-direction:column;position:fixed;inset:0;z-index:99;background:linear-gradient(180deg,#FFFFFF,var(--soft-lilac));padding:92px 26px 32px;overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .3s var(--ease),transform .3s var(--ease),visibility 0s linear .3s;}
+    #mobileMenu.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s var(--ease),transform .3s var(--ease),visibility 0s;}
+    #mobileMenu a.mm-link{font-family:'Fraunces',serif;font-size:26px;color:var(--text);padding:15px 0;border-bottom:1px solid rgba(140,148,162,.22);display:block;}
+    #mobileMenu a.mm-link:active{color:var(--accent-text);}
+    #mobileMenu .mm-cta{margin-top:28px;text-align:center;justify-content:center;}
+    #mobileMenu .mm-meta{margin-top:auto;padding-top:28px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;color:var(--text-2);line-height:1.9;}
+  }
+
+  @media(max-width:980px){
+    #hero{height:auto;min-height:100vh;min-height:100svh;}
+    .hero-shell{height:auto;min-height:100vh;min-height:100svh;display:flex;}
+    .hero-grid{height:auto;min-height:inherit;width:100%;align-content:center;gap:0;}
+    .hero-content{padding:108px 0 8px;}
+    .hero-visual{min-height:0;height:auto;padding:0 0 96px;gap:12px;flex-direction:row;flex-wrap:nowrap;align-items:stretch;}
+    .hero-stat-card{flex:1 1 0;width:auto;min-width:0;padding:14px 16px;border-radius:16px;}
+    .hero-stat-card b{font-size:26px;}
+    .hero-stat-card span{font-size:9px;letter-spacing:.06em;line-height:1.4;}
+  }
+  @media(max-width:700px){
+    #hero::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(6,14,32,.62) 0%,rgba(6,14,32,.38) 45%,rgba(6,14,32,.66) 100%);}
+    .hero-eyebrow{font-size:10px;letter-spacing:.16em;margin-bottom:18px;}
+    .hero-title{font-size:clamp(36px,11vw,46px);max-width:13ch;}
+    .hero-trust{font-size:10px;letter-spacing:.03em;line-height:1.8;margin-top:20px;}
+    .hero-division-strip{padding:12px 22px 16px;}
+    #nav{padding:14px 22px;} #nav.scrolled{padding:10px 22px;}
+
+    section{scroll-margin-top:64px;}
+    #about,#featured,#why,#science,#timeline,#testi,#compare,#gallery,#blog,#faq{padding-top:52px;padding-bottom:52px;}
+    #contact,#news{padding-top:52px;padding-bottom:52px;}
+    #news{padding-left:22px;padding-right:22px;}
+    .sec-head{margin-bottom:30px;gap:14px;}
+    .sec-head p{max-width:none;}
+
+    /* products: swipeable cards instead of a very tall stack */
+    .product-grid{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin:0;max-width:100%;padding:4px 22px 24px;scroll-padding:0 22px;scrollbar-width:none;overscroll-behavior-x:contain;}
+    .product-grid::-webkit-scrollbar{display:none;}
+    .product-grid>*{flex:0 0 84%;scroll-snap-align:center;}
+    #featured{overflow-x:clip;}
+    #featured .wrap{overflow:visible;}
+    .p-card{padding:22px 18px 18px;border-radius:24px;}
+    .p-visual,.p-visual.has-img,.p-visual:has(img){margin:12px 0 16px;}
+    .spc-dots{margin-top:18px;}
+    .spc-dot{position:relative;}
+    .spc-dot::before{content:'';position:absolute;inset:-9px;}
+
+    /* "why" cards: icon beside text */
+    .why-card{display:grid;grid-template-columns:40px 1fr;column-gap:14px;align-items:start;padding:18px 18px;border-radius:20px;}
+    .why-card .why-icon{grid-row:1/3;margin:2px 0 0;}
+    .why-card h4{margin-bottom:4px;}
+    .why-grid{gap:12px;}
+
+    /* R&D accordion: descriptions were hidden for good on phones, now they open */
+    .sci-row{grid-template-columns:1fr 40px;gap:0 12px;padding:22px 0;}
+    .sci-name{grid-column:1;grid-row:1;font-size:22px;}
+    .sci-plus{grid-column:2;grid-row:1;text-align:right;}
+    .sci-row .sci-desc{display:none;grid-column:1/-1;grid-row:2;margin-top:12px;padding-right:12px;}
+    .sci-row[data-open="true"] .sci-desc{display:block;}
+
+    .tl-track{margin-top:40px;}
+    .life-img{height:300px;border-radius:24px;}
+    .life-copy{padding:34px 24px;border-radius:24px;}
+    .blog-grid{gap:28px;margin-top:34px;}
+    .blog-thumb{aspect-ratio:16/8;margin-bottom:14px;border-radius:16px;}
+    #stats{padding:44px 0;}
+
+    /* inputs: 16px stops iOS Safari zooming in on focus */
+    input,textarea,select,.news-form input{font-size:16px;}
+    .news-form{max-width:100%;}
+    footer a[aria-label]{display:inline-flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;}
+    .foot-bottom{gap:14px;}
+  }
+  @media(max-width:480px){
+    #nav .navicons .btn.ghost{display:none;}
+  }
+  @media(hover:none){
+    .why-card:hover,.p-card:hover .p-bottle{transform:none;}
+    .p-card:hover .p-visual img{transform:none;}
+  }
+
+  /* these two grids carried an inline padding:0, so on phones/laptops cards touched the screen edge */
+  .product-grid.wrap,.why-grid.wrap{padding-left:48px !important;padding-right:48px !important;}
+  @media(max-width:700px){.product-grid.wrap{padding:4px 22px 24px !important;}.why-grid.wrap{padding-left:22px !important;padding-right:22px !important;}}
 </style>
 </head>
 <body>
@@ -471,8 +583,22 @@
   </div>
   <div class="navicons">
     <a href="#contact" class="btn ghost magnetic" style="padding:10px 22px;font-size:11px;"><span>Get in Touch</span></a>
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
+<div id="mobileMenu" aria-hidden="true">
+  <a class="mm-link" href="#hero">Home</a>
+  <a class="mm-link" href="#about">About</a>
+  <a class="mm-link" href="#featured">Divisions</a>
+  <a class="mm-link" href="#science">R&amp;D</a>
+  <a class="mm-link" href="#why">Why Us</a>
+  <a class="mm-link" href="#timeline">Our Journey</a>
+  <a class="mm-link" href="#blog">Insights</a>
+  <a class="mm-link" href="#contact">Contact</a>
+  <a class="btn solid mm-cta" href="#contact" style="background:var(--brand);color:#fff;"><span>Get in Touch</span></a>
+  <div class="mm-meta">alentalifesciences.com<br>+91 78270 53040</div>
+</div>
 
 <main id="main">
 <!-- HERO -->
@@ -1106,6 +1232,27 @@ setInterval(()=>showTesti((testiIdx+1)%slides.length),5000);
       entries.forEach(en=>{ if(en.isIntersecting) tryPlay(); else video.pause(); });
     },{threshold:0.01}).observe(video);
   }
+})();
+</script>
+<script>
+/* ---------- MOBILE MENU ---------- */
+(function(){
+  const nav=document.getElementById('nav'),btn=document.getElementById('navBurger'),menu=document.getElementById('mobileMenu');
+  if(!nav||!btn||!menu) return;
+  const setOpen=(open)=>{
+    nav.classList.toggle('menu-open',open); menu.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open?'true':'false'); btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+    menu.setAttribute('aria-hidden',open?'false':'true');
+    document.documentElement.style.overflow=open?'hidden':'';
+    if(window.__lenis){ open?window.__lenis.stop():window.__lenis.start(); }
+  };
+  btn.addEventListener('click',()=>setOpen(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{
+    const id=a.getAttribute('href'); setOpen(false);
+    if(id&&id.length>1){ const t=document.querySelector(id); if(t){ e.preventDefault(); setTimeout(()=>{ window.__lenis?window.__lenis.scrollTo(t,{offset:-56,immediate:false}):t.scrollIntoView({behavior:'smooth'}); },60); } }
+  }));
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&menu.classList.contains('open')) setOpen(false); });
+  window.addEventListener('resize',()=>{ if(window.innerWidth>980&&menu.classList.contains('open')) setOpen(false); });
 })();
 </script>
 </body>
